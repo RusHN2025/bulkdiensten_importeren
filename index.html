@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulk Diensten Aanmaken - Instructie & Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            background: #f5f6fa;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+        }
+
+        header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+
+        section {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 2.2em;
+            color: #007bff;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            color: #0056b3;
+            margin: 25px 0 15px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        h3::before {
+            content: "📋";
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        
+        h4 {
+            font-size: 1.2em;
+            color: #495057;
+            margin: 20px 0 10px 0;
+            font-weight: 600;
+        }
+
+        p, li {
+            margin-bottom: 12px;
+            font-size: 1.1em;
+        }
+
+        ul {
+            margin: 15px 0 15px 25px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .concept-box {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-left: 5px solid #007bff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .concept-box h4 {
+            color: #0056b3;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .concept-box h4::before {
+            content: "💡";
+            margin-right: 8px;
+        }
+
+        .step-container {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #007bff;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: 600;
+            color: #856404;
+        }
+        
+        .code-like {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #e9ecef;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #c7254e;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ ";
+            font-weight: bold;
+        }
+
+        .quiz {
+            display: none;
+        }
+
+        .quiz.active {
+            display: block;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .options button {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px 25px;
+            font-size: 1.1em;
+            color: white;
+            background: #007bff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        .options button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4);
+        }
+
+        .options button.correct {
+            background: #28a745 !important;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+
+        .options button.wrong {
+            background: #dc3545 !important;
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+        }
+
+        .options button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .feedback {
+            font-size: 2em;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .feedback.good {
+            color: #28a745;
+        }
+
+        .feedback.wrong {
+            color: #dc3545;
+        }
+
+        .navigation {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .navigation button {
+            padding: 12px 25px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 0 10px;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        .navigation button:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+        
+        .results-section {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .results-section p {
+            font-size: 1.8em;
+            margin: 20px 0;
+            color: #495057;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Bulk Diensten Aanmaken</h1>
+        <p>Gedetailleerde instructiegids en interactieve quiz</p>
+    </header>
+
+    <!-- Instructie Sectie -->
+    <section>
+        <h2>📚 Instructiegids: Bulk Diensten Aanmaken</h2>
+        
+        <div class="concept-box">
+            <h4>Wat is Bulk Diensten Aanmaken?</h4>
+            <p>Met de functie 'Bulk Dienst Toevoegen' in HappyOne kun je efficiënt meerdere diensten tegelijk importeren. Dit bespaart tijd en vermindert handmatige invoer, vooral bij grote aantallen diensten. Diensten kunnen tot 3 maanden terug in het verleden worden toegevoegd.</p>
+        </div>
+
+        <div class="concept-box">
+            <h4>Voordelen van Bulk Importeren</h4>
+            <ul>
+                <li><strong>Tijdsbesparing:</strong> Snel grote hoeveelheden diensten verwerken.</li>
+                <li><strong>Efficiëntie:</strong> Minder handmatige handelingen en fouten.</li>
+                <li><strong>Consistentie:</strong> Zorgt voor uniforme data-invoer.</li>
+                <li><strong>Planning:</strong> Maakt het mogelijk om diensten vooruit of tot 3 maanden terug te plannen.</li>
+            </ul>
+        </div>
+
+        <div class="step-container">
+            <div class="step-number">1</div>
+            <h3>Navigeer naar Bulk Dienst Toevoegen</h3>
+            <h4>🎯 Doel</h4>
+            <p>De module voor het in bulk toevoegen van diensten openen.</p>
+            
+            <h4>📝 Acties</h4>
+            <ul>
+                <li>Ga naar <span class="highlight">'Werkaanbod'</span> in het hoofdmenu.</li>
+                <li>Zorg dat het overzicht gefilterd is op <span class="highlight">'Diensten'</span>.</li>
+                <li>Klik op de knop <span class="highlight">'Bulk dienst toevoegen'</span>.</li>
+            </ul>
+        </div>
+
+        <div class="step-container">
+            <div class="step-number">2</div>
+            <h3>Selecteer Basisgegevens</h3>
+            <h4>🎯 Doel</h4>
+            <p>De context voor de te importeren diensten specificeren.</p>
+            
+            <h4>📝 Acties</h4>
+            <ul>
+                <li>In het scherm <span class="highlight">'Bulk dienst aanmaken'</span>:
+                    <ul>
+                        <li>Selecteer de <span class="highlight">'HN vestiging'</span>.</li>
+                        <li>Selecteer de <span class="highlight">'Organisatie'</span>.</li>
+                        <li>Selecteer het <span class="highlight">'Niveau'</span> waarop je de diensten wilt invoeren.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="step-container">
+            <div class="step-number">3</div>
+            <h3>Importeer Dienstenbestand</h3>
+            <h4>🎯 Doel</h4>
+            <p>Het bestand met dienstengegevens uploaden of plakken.</p>
+            
+            <h4>📝 Acties</h4>
+            <ul>
+                <li>Kies de gegevensbron:
+                    <ul>
+                        <li><span class="highlight">'Document selecteren'</span>: Upload een bestand (bijv. Excel, CSV).</li>
+                        <li><span class="highlight">'Plakken vanuit klembord'</span>: Kopieer en plak data direct.</li>
+                    </ul>
+                </li>
+                <li>Het aantal gevonden rijen wordt getoond.</li>
+            </ul>
+        </div>
+        
+        <div class="step-container">
+            <div class="step-number">4</div>
+            <h3>Veldentoewijzing (Mapping)</h3>
+            <h4>🎯 Doel</h4>
+            <p>De kolommen uit je importbestand koppelen aan de juiste velden in HappyOne.</p>
+            
+            <h4>📝 Acties</h4>
+            <ul>
+                <li>Deze stap is <strong>eenmalig</strong> vereist per organisatie bij de eerste import.</li>
+                <li>Wijs elk geïmporteerd veld (kolom uit je bestand) toe aan het corresponderende veld in HappyOne.</li>
+                <li>Regels die niet corresponderen met een veld in HappyOne kun je leeglaten.</li>
+                <li><span class="highlight">Pauze:</span> Een nieuw veld 'Pauze'. Geef aan met <code class="code-like">'ja'</code> of <code class="code-like">'nee'</code>. Indien leeg, wordt geen pauze toegevoegd.</li>
+                <li><span class="highlight">Kolomnamen verwijderen:</span> Vink aan als je importbestand kolomnamen bevat die niet geïmporteerd moeten worden.</li>
+                <li><span class="highlight">Standaard schema:</span> Optioneel, sla deze mapping op als standaardschema voor deze klant.</li>
+                <li>Klik op <span class="highlight">'Doorgaan'</span>.</li>
+            </ul>
+            <div class="warning-box">
+                <strong>Tip:</strong> Een correcte veldentoewijzing is cruciaal voor een succesvolle import. Neem hier de tijd voor bij de eerste import.
+            </div>
+        </div>
+
+        <div class="step-container">
+            <div class="step-number">5</div>
+            <h3>Data Valideren en Corrigeren</h3>
+            <h4>🎯 Doel</h4>
+            <p>Controleren of HappyOne de geïmporteerde data herkent en eventuele fouten oplossen.</p>
+            
+            <h4>📝 Acties</h4>
+            <ul>
+                <li>HappyOne controleert de data. Er wordt getoond hoeveel diensten klaar zijn voor import en hoeveel nog <span class="highlight">'Actie vereist'</span> hebben.</li>
+                <li>Klik op <span class="highlight">'Actie vereist'</span> om de diensten te tonen die aandacht nodig hebben.</li>
+                <li>Voorbeelden van acties:
+                    <ul>
+                        <li>Naam van afdeling of functie wordt niet herkend: Klik op de rode tekst en selecteer de juiste waarde uit de keuzelijst.</li>
+                        <li>Staat de gewenste afdeling/functie niet in de lijst? Maak deze dan eerst aan in het dossier van de betreffende klant.</li>
+                    </ul>
+                </li>
+                <li><span class="highlight">Alias toevoegen:</span> Na correctie kan gevraagd worden om een alias toe te voegen. Dit helpt HappyOne om de data de volgende keer automatisch te herkennen.</li>
+            </ul>
+        </div>
+        
+        <div class="step-container">
+            <div class="step-number">6</div>
+            <h3>Diensten Aanmaken</h3>
+            <h4>🎯 Doel</h4>
+            <p>De gevalideerde diensten definitief importeren in HappyOne.</p>
+            
+            <h4>📝 Acties</h4>
+            <ul>
+                <li>Zodra er geen <span class="highlight">'Actie vereist'</span> meer is, filter op <span class="highlight">'Klaar om te importeren'</span>.</li>
+                <li>Klik op <span class="highlight">'Dienst aanmaken'</span>.</li>
+                <li>De diensten worden nu aangemaakt in het systeem.</li>
+            </ul>
+        </div>
+
+        <div class="concept-box">
+            <h4>Optioneel: Standaard Schema Toevoegen/Beheren</h4>
+            <ul>
+                <li><strong>Toevoegen:</strong> Klik op de 3 verticale puntjes naast het invoerveld voor veldentoewijzing en kies <span class="highlight">'Schema toevoegen'</span>. Geef het schema een naam. Dit schema wordt de volgende keer automatisch gebruikt voor deze klant.</li>
+                <li><strong>Beheren:</strong> Het is mogelijk om meerdere schema's toe te voegen, te wijzigen of te verwijderen.</li>
+            </ul>
+        </div>
+        
+        <div class="concept-box">
+            <h4>Optioneel: Diensten Annuleren na Import</h4>
+            <ul>
+                <li>Na import is het mogelijk diensten die toewijsbaar zijn aan een flexwerker te verwijderen.</li>
+                <li>Selecteer de te verwijderen diensten.</li>
+                <li>Klik op <span class="highlight">'Actie'</span> en vervolgens op <span class="highlight">'Diensten annuleren'</span>.</li>
+            </ul>
+        </div>
+
+        <div class="warning-box">
+            <strong>Best Practices:</strong>
+            <ul>
+                <li>Zorg voor een schoon en consistent importbestand.</li>
+                <li>Controleer de data zorgvuldig tijdens de validatiestap.</li>
+                <li>Maak gebruik van aliassen en standaardschema's om toekomstige imports te versnellen.</li>
+                <li>Test eerst met een klein aantal diensten als je niet zeker bent.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Quiz Sectie -->
+    <section id="quiz-section">
+        <h2>🎯 Toets je Kennis</h2>
+        <div id="quiz-1" class="quiz active">
+            <div class="question">Waar begin je in HappyOne om diensten in bulk toe te voegen?</div>
+            <div class="options">
+                <button onclick="handleQuizAnswer(this, false)">Bij 'Klantenbeheer' onder 'Importeer Opties'</button>
+                <button onclick="handleQuizAnswer(this, true)">Bij 'Werkaanbod', gefilterd op 'Diensten', dan 'Bulk dienst toevoegen'</button>
+            </div>
+            <div id="feedback-quiz-1" class="feedback"></div>
+            <div class="navigation">
+                <button onclick="nextQuiz(2)">Volgende Vraag</button>
+            </div>
+        </div>
+
+        <div id="quiz-2" class="quiz">
+            <div class="question">Wat moet je doen als je voor het eerst diensten importeert voor een organisatie en de velden niet overeenkomen?</div>
+            <div class="options">
+                <button onclick="handleQuizAnswer(this, true)">De geïmporteerde velden eenmalig toewijzen (mappen) aan de HappyOne velden.</button>
+                <button onclick="handleQuizAnswer(this, false)">Het importbestand handmatig aanpassen zodat alle kolomnamen exact overeenkomen met HappyOne.</button>
+            </div>
+            <div id="feedback-quiz-2" class="feedback"></div>
+            <div class="navigation">
+                <button onclick="prevQuiz(1)">Vorige Vraag</button>
+                <button onclick="nextQuiz(3)">Volgende Vraag</button>
+            </div>
+        </div>
+        
+        <div id="quiz-3" class="quiz">
+            <div class="question">Wat betekent het als er diensten de status 'Actie vereist' hebben na het importeren van het bestand?</div>
+            <div class="options">
+                <button onclick="handleQuizAnswer(this, false)">Deze diensten worden automatisch overgeslagen en genegeerd.</button>
+                <button onclick="handleQuizAnswer(this, true)">Je moet deze diensten controleren en mogelijk data corrigeren of koppelen (bv. afdeling/functie hernoemen of selecteren).</button>
+            </div>
+            <div id="feedback-quiz-3" class="feedback"></div>
+            <div class="navigation">
+                <button onclick="prevQuiz(2)">Vorige Vraag</button>
+                <button onclick="showResults()">Resultaat Tonen</button>
+            </div>
+        </div>
+
+        <div id="quiz-results" class="quiz">
+            <div class="results-section">
+                <h2>🏆 Resultaten</h2>
+                <p id="result-text"></p>
+                <div class="navigation">
+                    <button onclick="restartQuiz()">Opnieuw Proberen</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    let correctAnswers = 0;
+    let totalQuestions = 3; // Aangepast naar 3 vragen
+
+    function handleQuizAnswer(button, correct) {
+        const parent = button.parentElement;
+        const feedback = parent.nextElementSibling;
+
+        parent.querySelectorAll('button').forEach(btn => btn.disabled = true);
+
+        if (correct) {
+            correctAnswers++;
+            button.classList.add('correct');
+            feedback.textContent = 'Goed 🎉';
+            feedback.className = 'feedback good';
+        } else {
+            button.classList.add('wrong');
+            feedback.textContent = 'Fout 🚫';
+            feedback.className = 'feedback wrong';
+        }
+    }
+
+    function nextQuiz(quizNumber) {
+        document.querySelectorAll('.quiz').forEach(quiz => quiz.classList.remove('active'));
+        document.getElementById(`quiz-${quizNumber}`).classList.add('active');
+    }
+
+    function prevQuiz(quizNumber) {
+        document.querySelectorAll('.quiz').forEach(quiz => quiz.classList.remove('active'));
+        document.getElementById(`quiz-${quizNumber}`).classList.add('active');
+    }
+
+    function showResults() {
+        const percentage = ((correctAnswers / totalQuestions) * 100).toFixed(0);
+
+        document.querySelectorAll('.quiz').forEach(quiz => quiz.classList.remove('active'));
+        document.getElementById('quiz-results').classList.add('active');
+
+        document.getElementById('result-text').textContent = `Je hebt ${correctAnswers} van de ${totalQuestions} vragen goed beantwoord (${percentage}%).`;
+    }
+
+    function restartQuiz() {
+        correctAnswers = 0;
+        document.querySelectorAll('.quiz').forEach(quiz => quiz.classList.remove('active'));
+        document.querySelectorAll('.options button').forEach(btn => {
+            btn.disabled = false;
+            btn.classList.remove('correct', 'wrong');
+        });
+        document.querySelectorAll('.feedback').forEach(fb => fb.textContent = '');
+
+        document.getElementById('quiz-1').classList.add('active');
+    }
+</script>
+
+</body>
+</html>
